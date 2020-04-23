@@ -1,0 +1,1 @@
+export {default as Navigation} from './navigation'; //exportuje default z katalogu navigation

@@ -1,6 +1,7 @@
 import React from 'react';
-import logo from './logo.svg';
+import logo from 'logo.svg'; // przy jsconfig.json nie trzeba podawać ścieżek relatywnych
 import './App.css';
+import {Navigation} from 'components' // korzysta z index.html z katalogu components
 
 function App() {
   return (
@@ -8,17 +9,12 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          <h2>Przykładowa aplikacja</h2>
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header>
+      <body>
+        <Navigation/>
+      </body>
     </div>
   );
 }
