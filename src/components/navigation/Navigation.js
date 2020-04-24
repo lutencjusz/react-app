@@ -1,18 +1,22 @@
 import React from 'react';
-import styled from 'styled-components';
+import {Wrapper} from 'components';
+import {Container, List} from './Navigation.css';
+import {Link} from 'react-router-dom';
 
- // styled.div to stack function tworzy element div
-const Container = styled.div`
-    background-color: ${({theme}) => theme.colors.gray.light};
-    display: flex;
-    padding: ${({theme}) => theme.spacing.sm}px 0;
-    justify-content: space-between;
-`
 //({theme}) destrukturyzacja obiektu
-
-function Navigation() {
+function Navigation({items}) {
     return <div>
-        <Container><h3>Przykładowa nawigacja</h3></Container>
+        <Container>
+            <Wrapper>
+                <List>
+                    {items.map(item =>(
+                        <li key={item.id}>
+                            <Link to={item.to}>{item.content}</Link>
+                        </li>
+                    ))}
+                </List>
+            </Wrapper>
+        </Container>
     </div>
 }
 
