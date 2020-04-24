@@ -10,7 +10,7 @@ function Navigation({items}) {
             <Wrapper>
                 <List>
                     {items.map(item =>(
-                        <li key={item.id}>
+                        <li key={item.to}>
                             <Link to={item.to}>{item.content}</Link>
                         </li>
                     ))}
