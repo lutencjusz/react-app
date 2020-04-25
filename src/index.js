@@ -4,10 +4,6 @@ import './index.css';
 import App from './App';
 import './components/i18n/i18n';
 
-React.lazy(()=> import('dotenv').config({
-  path: "../config.env"
-}))
-
 ReactDOM.render(
   <React.StrictMode>
     <Suspense fallback={<div>Ładowanie...</div>}>

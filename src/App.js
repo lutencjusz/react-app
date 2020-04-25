@@ -11,9 +11,7 @@ import {BrowserRouter as Router,
   Route
 } from 'react-router-dom';
 
-
 function App() {
-
   const {t, i18n} = useTranslation();
   return (
     <ThemeProvider theme={theme}>
