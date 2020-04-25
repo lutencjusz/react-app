@@ -4,8 +4,8 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 
 import CustomBackend from './CustomBackend';
 
-const token = '20a7d40cc7e04da60eecef9c5de128f3';
-const id = '335883';
+const token = ;
+const id = ;
 
 i18n
   // load translation using xhr -> see /public/locales
