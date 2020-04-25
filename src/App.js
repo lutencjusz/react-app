@@ -3,7 +3,7 @@ import logo from 'logo.svg'; // przy jsconfig.json nie trzeba podawać ścieżek
 import 'App.css';
 import {useTranslation} from 'react-i18next';
 import GlobalStyles from 'index.css'
-import {Navigation, Wrapper} from 'components' // korzysta z index.html z katalogu components
+import {Navigation, Wrapper, Button} from 'components' // korzysta z index.html z katalogu components
 import {BrowserRouter as Router, 
   Switch,
   Route
@@ -25,9 +25,9 @@ function App() {
               { content: 'Budget', to: '/budget'},
             ]} RightElement={(
               <div>
-                <button onClick={() => i18n.changeLanguage('pl')}>pl</button>
-                <button onClick={() => i18n.changeLanguage('en')}>en</button>
-                <button onClick={() => i18n.changeLanguage('de')}>de</button>
+                <Button onClick={() => i18n.changeLanguage('pl')}>pl</Button>
+                <Button onClick={() => i18n.changeLanguage('en')}>en</Button>
+                <Button onClick={() => i18n.changeLanguage('de')}>de</Button>
               </div>
             )}/>
             <Wrapper>

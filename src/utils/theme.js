@@ -19,5 +19,9 @@ export default {
       pink: {
         normal: 'rgb(219, 112, 147)',
       },
+      blue: {
+        light: 'rgb(97, 219, 251)',
+        dark: 'rgb(40,44,52)'
+      }
     },
   }
