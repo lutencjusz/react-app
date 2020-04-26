@@ -3,6 +3,7 @@ import {normalize} from 'styled-normalize'; // normalizator styli usuwa domyśln
 
 export default createGlobalStyle`
   ${normalize}
+  
   ul {
     list-style: none;
     margin: 0;

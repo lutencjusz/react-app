@@ -1,8 +1,8 @@
 import React from 'react';
 import {Container, NavigationWrapper, List} from './Navigation.css';
-import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {useTranslation} from 'react-i18next';
+import {Button} from 'components';
 
 //({theme}) destrukturyzacja obiektu
 //key jest potrzebny do reconciliation, czyli porównianie elementów i zmianę tylko zmienionych
@@ -14,7 +14,7 @@ function Navigation({items = [], RightElement}) {
                 <List>
                     {items.map(item =>(
                         <li key={item.to}>
-                            <Link to={item.to}>{t(item.content)}</Link>
+                            <Button variant='Inline' to={item.to}>{t(item.content)}</Button>
                         </li>
                     ))}
                 </List>

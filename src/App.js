@@ -25,9 +25,9 @@ function App() {
               { content: 'Budget', to: '/budget'},
             ]} RightElement={(
               <div>
-                <Button onClick={() => i18n.changeLanguage('pl')}>pl</Button>
-                <Button onClick={() => i18n.changeLanguage('en')}>en</Button>
-                <Button onClick={() => i18n.changeLanguage('de')}>de</Button>
+                <Button variant='Regular' onClick={() => i18n.changeLanguage('pl')}>pl</Button>
+                <Button variant='Regular' onClick={() => i18n.changeLanguage('en')}>en</Button>
+                <Button variant='Regular' onClick={() => i18n.changeLanguage('de')}>de</Button>
               </div>
             )}/>
             <Wrapper>

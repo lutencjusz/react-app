@@ -6,7 +6,8 @@ const RootButton = styled.button`
     border: none;
     background-color: transparent;
     cursor: ${props => props.to || props.onClick || props.type === 'submit' ? 'pointer' : 'default'};
-
+    border: ${({ theme }) => `2px solid ${theme.colors.blue.light}`};
+    margin: ${({ theme }) => `${theme.spacing.xs / 2}px`};
     &:hover {
         opacity: .8;
     }
@@ -15,13 +16,12 @@ const RootButton = styled.button`
 export const InlineButton = styled(RootButton)`
     &:hover {
         text-decoration: underline;
+        border: ${({ theme }) => `2px solid ${theme.colors.blue.light}`};
     }
 `
 
 export const RegularButton = styled(RootButton)`
     background: ${({ theme, primary }) => primary ? theme.colors.blue.light : theme.colors.blue.dark};
-    margin: ${({ theme }) => `${theme.spacing.xs / 2}px`};
     padding: ${({ theme }) => `${theme.spacing.xs / 2}px ${theme.spacing.xs}px`};
-    border: ${({ theme }) => `2px solid ${theme.colors.blue.light}`};
     border-radius: 3px;
 `
