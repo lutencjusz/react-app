@@ -23,15 +23,17 @@ const ConnectApp = connect(state =>{
 })(App)
 
 ReactDOM.render(
-  <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <Suspense fallback={<LoadingIndicator/>}>
-        <Provider store={store}>
-          <ConnectApp/>
-        </Provider>
-      </Suspense>
-    </ThemeProvider>
-  </React.StrictMode>,
+  <div className='body'>
+    <React.StrictMode>
+      <ThemeProvider theme={theme}>
+        <Suspense fallback={<LoadingIndicator/>}>
+          <Provider store={store}>
+            <ConnectApp/>
+          </Provider>
+        </Suspense>
+      </ThemeProvider>
+    </React.StrictMode>
+  </div>,
   document.getElementById('root')
 );
 
