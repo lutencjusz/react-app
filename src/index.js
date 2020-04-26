@@ -8,15 +8,26 @@ import {LoadingIndicator} from './components'
 import {ThemeProvider} from 'styled-components';
 import theme from 'utils/theme'
 import configureStore from 'components/data/Store';
+import {connect} from 'react-redux';
+import {fetchBudget, fetchBudgetedCategories} from 'components/data/actions/budget.actions';
 
 const store = configureStore()
+
+const ConnectApp = connect(state =>{
+  return {
+    budget: state.budget.budget
+  }
+}, {
+  fetchBudget,
+  fetchBudgetedCategories
+})(App)
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <Suspense fallback={<LoadingIndicator/>}>
         <Provider store={store}>
-          <App/>
+          <ConnectApp/>
         </Provider>
       </Suspense>
     </ThemeProvider>

@@ -1,11 +1,10 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import env from '../../config.env'
 import CustomBackend from './CustomBackend';
 
-const token = env.TOKEN;
-const id = env.ID;
+const token = process.env.REACT_APP_TOKEN; //react umożliwa korzystanie z pliku .env
+const id = process.env.REACT_APP_ID;
 
 i18n
   // load translation using xhr -> see /public/locales
