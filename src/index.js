@@ -8,19 +8,8 @@ import {LoadingIndicator} from './components'
 import {ThemeProvider} from 'styled-components';
 import theme from 'utils/theme'
 import configureStore from 'components/data/Store';
-import {connect} from 'react-redux';
-import {fetchBudget, fetchBudgetedCategories} from 'components/data/actions/budget.actions';
 
 const store = configureStore()
-
-const ConnectApp = connect(state =>{
-  return {
-    budget: state.budget.budget
-  }
-}, {
-  fetchBudget,
-  fetchBudgetedCategories
-})(App)
 
 ReactDOM.render(
   <div className='body'>
@@ -28,7 +17,7 @@ ReactDOM.render(
       <ThemeProvider theme={theme}>
         <Suspense fallback={<LoadingIndicator/>}>
           <Provider store={store}>
-            <ConnectApp/>
+            <App/>
           </Provider>
         </Suspense>
       </ThemeProvider>

@@ -1,20 +1,18 @@
-import React, {Fragment, useEffect} from 'react'; //Fragment pozwala nie nie wrapowanie dodatkowym div
+import React, {Fragment} from 'react'; //Fragment pozwala nie nie wrapowanie dodatkowym div
 import logo from 'logo.svg'; // przy jsconfig.json nie trzeba podawać ścieżek relatywnych
 import 'App.css';
 import {useTranslation} from 'react-i18next';
 import GlobalStyles from 'index.css'
-import {Navigation, Wrapper, Button} from 'components' // korzysta z index.html z katalogu components
+import {Navigation, Wrapper, Button, Budget} from 'components' // korzysta z index.html z katalogu components
 import {BrowserRouter as Router, 
   Switch,
   Route
 } from 'react-router-dom';
 
-function App({budget, fetchBudget, fetchBudgetedCategories}) {
-  useEffect(() => {
-    fetchBudget(1);
-    fetchBudgetedCategories(1);
-  }, [fetchBudget, fetchBudgetedCategories]);
+function App() {
+
   const {t, i18n} = useTranslation();
+
   return (
     <Fragment>
       <GlobalStyles/>
@@ -40,7 +38,7 @@ function App({budget, fetchBudget, fetchBudgetedCategories}) {
                   Dom
                 </Route>
                 <Route path="/budget">
-                  Budżet
+                  <Budget/>
                 </Route>
               </Switch>
             </Wrapper>
