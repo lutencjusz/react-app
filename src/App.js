@@ -14,7 +14,6 @@ function App({budget, fetchBudget, fetchBudgetedCategories}) {
     fetchBudget(1);
     fetchBudgetedCategories(1);
   }, [fetchBudget, fetchBudgetedCategories]);
-  console.log(budget);
   const {t, i18n} = useTranslation();
   return (
     <Fragment>
