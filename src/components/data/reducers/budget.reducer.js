@@ -9,7 +9,7 @@ import {
 } from '../constants';
 
 const initilaState = {
-    loadingState: {},
+    loadingState: null, // żeby na początku nie pokazywało się, że est załadowane
     budget: {},
     budgetCategories: [],
 }
