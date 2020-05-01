@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {groupBy} from 'lodash';
+import {ToggleableList} from 'components';
 
 function BudgetCategoryList({budgetedCategories, allCategories}) { // pobiera dane bezpośrednio ze store
     const budgetedCategoriesByParents = groupBy(
@@ -11,7 +12,11 @@ function BudgetCategoryList({budgetedCategories, allCategories}) { // pobiera da
     console.log(budgetedCategoriesByParents);
 
     return (
-        <div>BudgetCategoryList</div>
+        <div>
+            <ToggleableList
+                items={[]}
+            />
+        </div>
     )
 
 }

@@ -7,7 +7,7 @@ import './components/i18n/i18n';
 import {LoadingIndicator} from './components'
 import {ThemeProvider} from 'styled-components';
 import theme from 'utils/theme'
-import configureStore from 'components/data/Store';
+import configureStore from 'data/Store';
 
 const store = configureStore()
 

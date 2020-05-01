@@ -1,7 +1,7 @@
 import React, {useEffect, useMemo} from 'react';
 import {connect} from 'react-redux';
-import {fetchBudget, fetchBudgetedCategories} from 'components/data/actions/budget.actions';
-import {fetchAllCategories} from 'components/data/actions/common.actions';
+import {fetchBudget, fetchBudgetedCategories} from 'data/actions/budget.actions';
+import {fetchAllCategories} from 'data/actions/common.actions';
 import {LoadingIndicator} from 'components';
 import BudgetCategoryList from './components/budgetCategoryList'
 
