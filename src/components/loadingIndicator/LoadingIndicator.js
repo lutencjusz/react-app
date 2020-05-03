@@ -27,7 +27,7 @@ const Root = styled.div`
 
 const Content = styled.div`
     position: absolute;
-    background: ${({theme}) => theme.colors.gray.normal};
+    background: ${({theme}) => theme.colors.grey.normal};
     border: 4px solid ${({theme}) => theme.colors.blue.light};
     opacity: 1;
     border-radius: 50%;

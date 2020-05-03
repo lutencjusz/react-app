@@ -11,7 +11,7 @@ function ToggleableList ({items}) {
     const [selectedItem, setSelectedItem] = useState();
 
     return (<Fragment>
-        {items.map(item =>(
+        {items.map(item => (
             <Item 
                 key={item.id}
                 item={item}

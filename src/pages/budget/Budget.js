@@ -23,7 +23,7 @@ function Budget({
       [commonState, budgetState]
     )
 
-    console.log(isLoaded);
+    // console.log(isLoaded);
     // sprawdza, czy jest załadowane, jeżeli testujemy null to trzeba użyć !!
 
     return (
