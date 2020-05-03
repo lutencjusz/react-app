@@ -15,3 +15,8 @@ export const ParentCategory = styled(Category)`
 export const CategoryItem = styled.div`
     background-color: ${({ theme }) => theme.colors.grey.light};
 `
+// jeżeli negative to albo zieone albo czerwone
+export const CategoryAmount = styled.span`
+    font-weight: 700;
+    color: ${({ theme, negative }) => negative ? theme.colors.red.normal : theme.colors.green.normal}
+`
