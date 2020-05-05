@@ -12,7 +12,7 @@ export const ParentCategory = styled(Category)`
 `
 
 
-export const CategoryItem = styled.div`
+export const CategoryItem = styled(Category)`
     background-color: ${({ theme }) => theme.colors.grey.light};
 `
 // jeżeli negative to albo zieone albo czerwone
