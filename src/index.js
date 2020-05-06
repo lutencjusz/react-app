@@ -8,6 +8,7 @@ import {LoadingIndicator} from './components'
 import {ThemeProvider} from 'styled-components';
 import theme from 'utils/theme'
 import configureStore from 'data/Store';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const store = configureStore()
 

@@ -5,6 +5,7 @@ import {ToggleableList} from 'components';
 import ParentCategory from './ParentCategory';
 import CategoryItem from './CategoryItem';
 import {useTranslation} from 'react-i18next';
+import 'styled-components/macro'; // żeby używać CSS styled components
 
 function BudgetCategoryList({budgetedCategories, allCategories, budget}) { // pobiera dane bezpośrednio ze store poprze connect
 
@@ -40,25 +41,27 @@ function BudgetCategoryList({budgetedCategories, allCategories, budget}) { // po
         })
     );
 
+    //console.log({listItems});
+
     const totalSpent = budget.transactions
         .reduce((acc, transaction) => acc + transaction.amount, 0);
 
-    const restSpent = budget.totalAmount - totalSpent; // ile zostało do wydania całkowicie
+    //console.log({totalSpent});
+
+    const restToSpent = budget.totalAmount - totalSpent; // ile zostało do wydania całkowicie
     
+    //console.log({restToSpent});
+
     let amountTaken = budgetedCategories.reduce((acc, budgetedCategory) => {
         const categoryTransactions = budget.transactions
             .filter(transaction => transaction.categoryId === budgetedCategory.id);
         const categoryExpenses = categoryTransactions
             .reduce((acc, transaction) => acc + transaction.amount, 0);
         
-        return acc + Math.max(categoryExpenses, budgetedCategories.budget);
+        return acc + Math.max(categoryExpenses, budgetedCategory.budget);
     }, 0);
 
-    /*if (isNaN(amountTaken)) {
-        console.log('jest NaN')
-        amountTaken = 0;
-    }
-    console.log({amountTaken});*/
+    //console.log({amountTaken});
 
     const notBudgetedTransaction = budget.transactions
         .filter(transaction => !budgetedCategories.find(budgetedCategories => budgetedCategories.id === transaction.categoryId)) 
@@ -66,27 +69,35 @@ function BudgetCategoryList({budgetedCategories, allCategories, budget}) { // po
     
     const notBudgetedExpenses = notBudgetedTransaction.reduce((acc, transaction) => acc + transaction.amount, 0)
 
+    //console.log({notBudgetedExpenses});
+
     const availableAmountForRestCategories = budget.totalAmount - amountTaken - notBudgetedExpenses;
 
-    console.log({availableAmountForRestCategories});
+    // console.log({availableAmountForRestCategories});
 
+    // props css formatuje bez dodawania kolejnej klasy
     return (
         <Fragment>
-            <ParentCategory
-                name={budget.name}
-                amount={restSpent}
-            />
-            <div>
-                <ToggleableList
-                    items={listItems}
+            <div css={`
+                border-bottom: 5px solid ${({ theme }) => theme.colors.grey.light}
+            `}>
+                <ParentCategory
+                    name={budget.name}
+                    amount={restToSpent}
                 />
             </div>
-            <ParentCategory
-                name={t('Other categories')}
-                amount={availableAmountForRestCategories}
+            <ToggleableList
+                items={listItems}
             />
+            <div css={`
+                border-top: 5px solid ${({ theme }) => theme.colors.grey.light}
+            `}>
+                <ParentCategory
+                    name={t('Other categories')}
+                    amount={availableAmountForRestCategories}
+                />
+            </div>
         </Fragment>
-
     )
 
 }
@@ -95,5 +106,4 @@ export default connect( state => ({ // dane do brania ze Store
     budgetedCategories: state.budget.budgetCategories,
     allCategories: state.common.allCategories,
     budget: state.budget.budget
-
 }))(BudgetCategoryList);

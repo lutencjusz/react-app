@@ -18,17 +18,18 @@ function ParentCategory ({name, onClick, categories, transactions, amount}) {
                 return null;
             }
         })()
-        //console.log(budgeted)
 
-        const parentCategoryTransactions = transactions // znajdujemy transakcje podpięte pod parent category
-            .filter(transaction => {
+        //console.log({amount})
+        //console.log({budgeted})
+
+        const parentCategoryTransactions = transactions.filter(transaction => {
                 return categories.find(category => category.categoryId === transaction.categoryId)
             });
-        //console.log(parentCategoryTransactions)
+        //console.log({parentCategoryTransactions})
         
         const spendOnParentCategory = parentCategoryTransactions.reduce((acc, transaction) => acc + transaction.amount, 0);
         // ile wydane w danej kategorii
-        //console.log(spendOnParentCategory)
+        //console.log({spendOnParentCategory})
 
         const totalLeft = budgeted // skrawdzamy, czy nie został w trycatch zwrócony null
             ?  budgeted - spendOnParentCategory : 
@@ -38,7 +39,7 @@ function ParentCategory ({name, onClick, categories, transactions, amount}) {
     }, [categories, transactions, amount])
     
     const amountValue = useMemo( // wylicza kwotę ParentCategory albo podaje sumę całkowitą
-        () => amount || categoryLeftValue, [categoryLeftValue, amount]
+        () => amount || categoryLeftValue, [amount, categoryLeftValue]
     )
 
     // span, żeby w jednej linijce
