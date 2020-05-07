@@ -4,6 +4,7 @@ import {fetchBudget, fetchBudgetedCategories} from 'data/actions/budget.actions'
 import {fetchAllCategories} from 'data/actions/common.actions';
 import {LoadingIndicator} from 'components';
 import BudgetCategoryList from './components/budgetCategoryList'
+import BudgetTransactionList from './components/budgetTransactionList'
 
 import {Grid} from './Budget.css';
 
@@ -32,7 +33,7 @@ function Budget({
             {isLoaded ? <BudgetCategoryList/> : <LoadingIndicator/>}
           </section>
           <section>
-            {isLoaded ? <h2>Nagłówki</h2>: <LoadingIndicator/>}
+            {isLoaded ? <BudgetTransactionList/>: <LoadingIndicator/>}
           </section>
         </Grid>
     )
