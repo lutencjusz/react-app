@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {formatCurrency, formatDate} from 'utils';
 import {useTranslation} from 'react-i18next';
 
-function BudgetTransactionList({transactions}) {
+function BudgetTransactionList({transactions, allCategories}) {
 
     const {i18n} = useTranslation();
     const groupedTransactions = groupBy(
@@ -24,7 +24,7 @@ function BudgetTransactionList({transactions}) {
                                     <div>{transaction.description}</div>
                                     <div>{formatCurrency(transaction.amount, i18n.language)}</div>
                                     <div>{formatDate(transaction.date, i18n.language)}</div>
-                                    <div>{transaction.categoryId}</div>
+                                    <div>{(allCategories.find(category => category.id === transaction.categoryId) || {}).name}</div>
                             </ListItem>
                         ))}
                     </ul>
@@ -35,5 +35,6 @@ function BudgetTransactionList({transactions}) {
 }
 
 export default connect ( state => ({
-    transactions: state.budget.budget.transactions
+    transactions: state.budget.budget.transactions,
+    allCategories: state.common.allCategories
 }))(BudgetTransactionList);
