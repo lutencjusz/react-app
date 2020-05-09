@@ -5,6 +5,7 @@ import {
     BUDGETED_CATEGORIES_GET_REQUEST,
     BUDGETED_CATEGORIES_GET_SUCCESS,
     BUDGETED_CATEGORIES_GET_FAILURE,
+    SET_SELECTED_PARENT_CATEGORY_ID,
     LOADING_STATES
 } from '../constants';
 
@@ -12,6 +13,7 @@ const initilaState = {
     loadingState: null, // żeby na początku nie pokazywało się, że est załadowane
     budget: {},
     budgetCategories: [],
+    selectedParentCategoryId: undefined
 }
 
 function budget (state = initilaState, action) {
@@ -60,6 +62,11 @@ function budget (state = initilaState, action) {
                 budgetCategories: {}, // restart klucza ze względu na błąd, bo danych już nie dostaniemy
                 ...state,
                 loadingState: newLoadingState // nie ma ładowania danymi
+            }
+        case SET_SELECTED_PARENT_CATEGORY_ID:
+            return {
+                ...state,
+                selectedParentCategoryId: action.payload
             }    
         default:
             return state;

@@ -6,8 +6,12 @@ import ParentCategory from './ParentCategory';
 import CategoryItem from './CategoryItem';
 import {useTranslation} from 'react-i18next';
 import 'styled-components/macro'; // żeby używać CSS styled components
+import {selectParentCategory} from 'data/actions/budget.actions';
 
-function BudgetCategoryList({budgetedCategories, allCategories, budget}) { // pobiera dane bezpośrednio ze store poprze connect
+function BudgetCategoryList({
+        budgetedCategories, allCategories, budget, 
+        selectParentCategory
+    }) { // pobiera dane bezpośrednio ze store poprze connect
 
     const {t} = useTranslation();
     const budgetedCategoriesByParents = groupBy(
@@ -21,7 +25,10 @@ function BudgetCategoryList({budgetedCategories, allCategories, budget}) { // po
                 Trigger: ({onClick}) => (
                     <ParentCategory
                         name={parentName}
-                        onClick={() => onClick(parentName)}
+                        onClick={() => {
+                            onClick(parentName);
+                            selectParentCategory(parentName)
+                        }}
                         categories = {categories}
                         transactions = {budget.transactions}
                     />
@@ -106,4 +113,7 @@ export default connect( state => ({ // dane do brania ze Store
     budgetedCategories: state.budget.budgetCategories,
     allCategories: state.common.allCategories,
     budget: state.budget.budget
-}))(BudgetCategoryList);
+}),{
+    selectParentCategory // jeżeli przekażemy funkcję, to connect ją zdyspatchuje
+}
+)(BudgetCategoryList);
