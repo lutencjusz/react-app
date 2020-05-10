@@ -5,13 +5,20 @@ import {connect} from 'react-redux';
 import {formatCurrency, formatDate} from 'utils';
 import {useTranslation} from 'react-i18next';
 
-function BudgetTransactionList({transactions, allCategories, selectedParentCategoryId}) {
+function BudgetTransactionList({transactions, allCategories, selectedParentCategoryId, budgetedCategories}) {
     const {i18n} = useTranslation();
 
     const filteredTransactionsBySelectedParentCategory = (()=>{
         console.log({selectedParentCategoryId})
         if (typeof selectedParentCategoryId === 'undefined') { // jeżeli jest undefined, to musi być typeof, bo null jest false
             return transactions
+        } else if (selectedParentCategoryId === null) {
+            return transactions.filter(transaction => {
+                const hasBudgetCategory = budgetedCategories
+                    .some(budgetedCategory => budgetedCategory.id === transaction.categoryId)
+                //.some zwraca true, jeżeli chociaż jedna iterecja zwraca true
+                return !hasBudgetCategory // zwróć te, które nie mają zabudżetowenej kategorii
+            })
         } else {
             return transactions.filter(transaction =>{
                 // filtruje wszystkie transakcje w ramach budżetu, których kategotria należy do kategorii wyższego rzędu
@@ -60,6 +67,7 @@ function BudgetTransactionList({transactions, allCategories, selectedParentCateg
 export default connect ( state => ({
     transactions: state.budget.budget.transactions,
     allCategories: state.common.allCategories,
+    budgetedCategories: state.budget.budgetCategories,
     selectedParentCategoryId: state.budget.selectedParentCategoryId
 
 }))(BudgetTransactionList);

@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useState, useEffect} from 'react'; // useEffect, gdy tylko w konkretnym moemencie ma być zmiana 
 
 const Item = ({item, onClickHandler, isActive}) => (
     <div>
@@ -7,9 +7,13 @@ const Item = ({item, onClickHandler, isActive}) => (
     </div>
 )
 
-function ToggleableList ({items}) {
+function ToggleableList ({items, clickRef}) {
     const [selectedItem, setSelectedItem] = useState();
 
+    useEffect(()=>{
+        clickRef.current = setSelectedItem //do bierzącej wartości z hooka useRef z BudgetCategoryList przypisujemy funkcję ustawiającą useState 
+    }, [clickRef, selectedItem])
+    
     return (<Fragment>
         {items.map(item => (
             <Item 

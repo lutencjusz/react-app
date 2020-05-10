@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useRef} from 'react'; // useRef, żeby oddziaływać na useState dziecka
 import {connect} from 'react-redux';
 import {groupBy} from 'lodash';
 import {ToggleableList} from 'components';
@@ -14,10 +14,22 @@ function BudgetCategoryList({
     }) { // pobiera dane bezpośrednio ze store poprze connect
 
     const {t} = useTranslation();
+    const handleClickParentCategoryRef = useRef(null);
+
     const budgetedCategoriesByParents = groupBy(
         budgetedCategories, 
         item => allCategories.find(category => category.id === item.categoryId).parentCategory.name
     )
+
+    const handleClearParentCategorySelect = () => { // przechwutuje pokazywanie wszystkich transakcji
+        selectParentCategory();
+        handleClickParentCategoryRef.current() // wywołuje funkcję setSelectedItem z ToggleableList 
+    }
+
+    const handleSelectRestParentCategory = () => {
+        selectParentCategory(null);
+        handleClickParentCategoryRef.current() // przekazujemy do setSelectedItem wartość undefined
+    }
 
     const listItems = Object.entries(budgetedCategoriesByParents)
         .map(([parentName, categories]) => ({
@@ -91,10 +103,12 @@ function BudgetCategoryList({
                 <ParentCategory
                     name={budget.name}
                     amount={restToSpent}
+                    onClick={handleClearParentCategorySelect}
                 />
             </div>
             <ToggleableList
                 items={listItems}
+                clickRef={handleClickParentCategoryRef}
             />
             <div css={`
                 border-top: 5px solid ${({ theme }) => theme.colors.grey.light}
@@ -102,6 +116,7 @@ function BudgetCategoryList({
                 <ParentCategory
                     name={t('Other categories')}
                     amount={availableAmountForRestCategories}
+                    onClick={handleSelectRestParentCategory}
                 />
             </div>
         </Fragment>
