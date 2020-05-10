@@ -1,4 +1,5 @@
-import React, {Fragment, useRef} from 'react'; // useRef, żeby oddziaływać na useState dziecka
+import React, {Fragment, useRef, useMemo, useCallback} from 'react'; // useRef, żeby oddziaływać na useState dziecka
+// useCallback zwraca funkcję, a nie wartość jak useMemo, czyli jeżeli nie zmieni się fukcja, to się nie zrenderuje
 import {connect} from 'react-redux';
 import {groupBy} from 'lodash';
 import {ToggleableList} from 'components';
@@ -16,22 +17,22 @@ function BudgetCategoryList({
     const {t} = useTranslation();
     const handleClickParentCategoryRef = useRef(null);
 
-    const budgetedCategoriesByParents = groupBy(
+    const budgetedCategoriesByParents = useMemo(() => groupBy(
         budgetedCategories, 
         item => allCategories.find(category => category.id === item.categoryId).parentCategory.name
-    )
+    ),[budgetedCategories, allCategories]); // jeśli w referencji budgetedCategories, allCategories się zmieni, to wykonuje funkcję
 
-    const handleClearParentCategorySelect = () => { // przechwutuje pokazywanie wszystkich transakcji
+    const handleClearParentCategorySelect = useCallback(() => { // przechwutuje pokazywanie wszystkich transakcji
         selectParentCategory();
         handleClickParentCategoryRef.current() // wywołuje funkcję setSelectedItem z ToggleableList 
-    }
+    },[selectParentCategory, handleClickParentCategoryRef])
 
-    const handleSelectRestParentCategory = () => {
+    const handleSelectRestParentCategory = useCallback(() => {
         selectParentCategory(null);
         handleClickParentCategoryRef.current() // przekazujemy do setSelectedItem wartość undefined
-    }
+    },[selectParentCategory, handleClickParentCategoryRef])
 
-    const listItems = Object.entries(budgetedCategoriesByParents)
+    const listItems = useMemo(() => Object.entries(budgetedCategoriesByParents)
         .map(([parentName, categories]) => ({
                 id: parentName,
                 Trigger: ({onClick}) => (
@@ -58,39 +59,44 @@ function BudgetCategoryList({
                     )
                 })
         })
-    );
+    ), [budgetedCategoriesByParents, allCategories, budget.transactions, selectParentCategory]);
 
     //console.log({listItems});
 
-    const totalSpent = budget.transactions
-        .reduce((acc, transaction) => acc + transaction.amount, 0);
+    const totalSpent = useMemo(()=>budget.transactions
+        .reduce((acc, transaction) => acc + transaction.amount, 0)
+    ,[budget.transactions]);
 
     //console.log({totalSpent});
 
-    const restToSpent = budget.totalAmount - totalSpent; // ile zostało do wydania całkowicie
+    const restToSpent = useMemo(() =>budget.totalAmount - totalSpent,[budget.totalAmount, totalSpent]) // ile zostało do wydania całkowicie
     
     //console.log({restToSpent});
 
-    let amountTaken = budgetedCategories.reduce((acc, budgetedCategory) => {
+    const amountTaken = useMemo(()=>budgetedCategories.reduce((acc, budgetedCategory) => {
         const categoryTransactions = budget.transactions
             .filter(transaction => transaction.categoryId === budgetedCategory.id);
         const categoryExpenses = categoryTransactions
             .reduce((acc, transaction) => acc + transaction.amount, 0);
         
         return acc + Math.max(categoryExpenses, budgetedCategory.budget);
-    }, 0);
+    }, 0),[budget.transactions, budgetedCategories]);
 
     //console.log({amountTaken});
 
-    const notBudgetedTransaction = budget.transactions
-        .filter(transaction => !budgetedCategories.find(budgetedCategories => budgetedCategories.id === transaction.categoryId)) 
+    const notBudgetedTransaction = useMemo(() =>budget.transactions
+        .filter(transaction => !budgetedCategories
+            .find(budgetedCategories => budgetedCategories.id === transaction.categoryId)),[budget.transactions, budgetedCategories]) 
         // te które nie zostały odnalezione
     
-    const notBudgetedExpenses = notBudgetedTransaction.reduce((acc, transaction) => acc + transaction.amount, 0)
+    const notBudgetedExpenses = useMemo(()=>notBudgetedTransaction
+        .reduce((acc, transaction) => acc + transaction.amount, 0),[notBudgetedTransaction])
 
     //console.log({notBudgetedExpenses});
 
-    const availableAmountForRestCategories = budget.totalAmount - amountTaken - notBudgetedExpenses;
+    const availableAmountForRestCategories = useMemo(() =>
+        budget.totalAmount - amountTaken - notBudgetedExpenses,
+        [amountTaken, notBudgetedExpenses, budget.totalAmount])
 
     // console.log({availableAmountForRestCategories});
 

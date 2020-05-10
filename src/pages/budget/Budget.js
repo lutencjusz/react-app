@@ -1,10 +1,11 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {useEffect, useMemo, Fragment} from 'react';
 import {connect} from 'react-redux';
 import {fetchBudget, fetchBudgetedCategories} from 'data/actions/budget.actions';
 import {fetchAllCategories} from 'data/actions/common.actions';
-import {LoadingIndicator} from 'components';
+import {LoadingIndicator, Modal, Button} from 'components';
 import BudgetCategoryList from './components/budgetCategoryList'
 import BudgetTransactionList from './components/budgetTransactionList'
+import {Switch, Route} from 'react-router-dom'; // elementy Router możemy wstawiać w każdym dziecku
 
 import {Grid} from './Budget.css';
 
@@ -28,14 +29,27 @@ function Budget({
     // sprawdza, czy jest załadowane, jeżeli testujemy null to trzeba użyć !!
 
     return (
+      <Fragment>
         <Grid>
           <section>
             {isLoaded ? <BudgetCategoryList/> : <LoadingIndicator/>}
           </section>
           <section>
-            {isLoaded ? <BudgetTransactionList/>: <LoadingIndicator/>}
+            {isLoaded ? 
+              <Fragment>
+                <Button to="/budget/transaction/new" variant='Inline'>Add new transaction</Button>
+                <BudgetTransactionList/>
+              </Fragment>: 
+              <LoadingIndicator/>}
           </section>
         </Grid>
+        <Switch>
+          <Route path="/budget/transaction/new">
+            <Modal><p>Jakiś children</p></Modal>
+          </Route>
+        </Switch>
+      </Fragment>
+
     )
 }
 

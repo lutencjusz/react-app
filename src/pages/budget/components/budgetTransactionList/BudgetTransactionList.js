@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {List, ListItem} from './BudgetTransactionList.css'
 import {groupBy} from 'lodash';
 import {connect} from 'react-redux';
@@ -8,8 +8,8 @@ import {useTranslation} from 'react-i18next';
 function BudgetTransactionList({transactions, allCategories, selectedParentCategoryId, budgetedCategories}) {
     const {i18n} = useTranslation();
 
-    const filteredTransactionsBySelectedParentCategory = (()=>{
-        console.log({selectedParentCategoryId})
+    const filteredTransactionsBySelectedParentCategory = useMemo((()=>{ //wykorzystuje memonizacje
+        // console.log({selectedParentCategoryId})
         if (typeof selectedParentCategoryId === 'undefined') { // jeżeli jest undefined, to musi być typeof, bo null jest false
             return transactions
         } else if (selectedParentCategoryId === null) {
@@ -33,15 +33,15 @@ function BudgetTransactionList({transactions, allCategories, selectedParentCateg
             })
         }
 
-    })() // funkcja się samowywołuje
+    }),[allCategories, budgetedCategories, selectedParentCategoryId, transactions]) // funkcja się samowywołuje, ale przy useMemo nie potrzeba, bo hook ją wywoła
 
 
     //console.log({filteredTransactionsBySelectedParentCategory})
 
-    const groupedTransactions = groupBy(
+    const groupedTransactions = useMemo(() =>groupBy(
         filteredTransactionsBySelectedParentCategory,
         transaction => new Date(transaction.date).getUTCDate() // pobiera dzień miesiąca z daty
-    )
+    ),[filteredTransactionsBySelectedParentCategory])
 
     //console.log(groupedTransactions);
 
