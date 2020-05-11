@@ -5,6 +5,7 @@ import {fetchAllCategories} from 'data/actions/common.actions';
 import {LoadingIndicator, Modal, Button} from 'components';
 import BudgetCategoryList from './components/budgetCategoryList'
 import BudgetTransactionList from './components/budgetTransactionList'
+import AddTransactionForm from './components/addTransactionForm'
 import {Switch, Route} from 'react-router-dom'; // elementy Router możemy wstawiać w każdym dziecku
 
 import {Grid} from './Budget.css';
@@ -45,7 +46,7 @@ function Budget({
         </Grid>
         <Switch>
           <Route path="/budget/transaction/new">
-            <Modal><p>Jakiś children</p></Modal>
+            <Modal><AddTransactionForm/></Modal>
           </Route>
         </Switch>
       </Fragment>
