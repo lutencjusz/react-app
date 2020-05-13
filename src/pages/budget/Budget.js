@@ -11,7 +11,7 @@ import {Switch, Route} from 'react-router-dom'; // elementy Router możemy wstaw
 import {Grid} from './Budget.css';
 
 function Budget({
-  commonState, budgetState,
+  commonState, budgetState, allCategories,
   fetchBudget, fetchBudgetedCategories, fetchAllCategories
 }) { //dispatchujemy, więc musimy odebrać w propsach
     useEffect(() => {
@@ -46,7 +46,10 @@ function Budget({
         </Grid>
         <Switch>
           <Route path="/budget/transaction/new">
-            <Modal><AddTransactionForm/></Modal>
+            <Modal><AddTransactionForm
+              categories={allCategories}
+              groupCategoriesBy={'parentCategory.name'}
+            /></Modal>
           </Route>
         </Switch>
       </Fragment>
@@ -58,7 +61,8 @@ export default connect(state =>{
     return { // podaje propsy dla Budget
       budget: state.budget.budget,
       commonState: state.common.loadingState,
-      budgetState: state.budget.loadingState
+      budgetState: state.budget.loadingState,
+      allCategories: state.common.allCategories,
     }
   }, { // podaje w propsach akcje
     fetchBudget,

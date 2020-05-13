@@ -1,9 +1,26 @@
-import React from 'react';
-import { Form, Field } from 'react-final-form'
+import React, {useMemo} from 'react';
+import { Form, Field } from 'react-final-form';
+import {groupBy} from 'lodash';
 
-function AddTransactionForm () {
+function AddTransactionForm ({categories, groupCategoriesBy}) {
 
     const required = value => (value ? undefined : 'Pole wymagane!') // jeżeli nie ma błedu to zwraca undefined
+
+    const groupCategoriesByParentName = groupCategoriesBy ? groupBy(categories, groupCategoriesBy) : null // jest obiektem
+
+    const categoryItems = useMemo(() =>groupCategoriesByParentName ? Object.entries(groupCategoriesByParentName)
+        .map(([parentName, categories]) => (
+            <optgroup label={parentName} key={parentName}>
+                {categories.map(category=>(
+                    <option key={category.id} value={category.id}>{category.name}</option>
+                ))}
+            </optgroup>            
+        ))
+        : categories.map(category => (
+            <option value={category.id}>{category.name}</option>
+        ))
+        
+        ,[groupCategoriesByParentName, categories])
 
     return (
         <Form
@@ -43,10 +60,9 @@ function AddTransactionForm () {
                 {({ input, meta }) => (
                     <div>
                     <label>Kategoria</label>
-                    <input {...input} 
-                        type="text" 
-                        placeholder="Kategoria" 
-                    />
+                    <select {...input}>
+                        {categoryItems}
+                    </select>
                     {meta.error && meta.touched && <span>{meta.error}</span>}
                     </div>
                 )}
