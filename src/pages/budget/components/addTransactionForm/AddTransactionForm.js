@@ -1,8 +1,8 @@
 import React, {useMemo} from 'react';
 import { Form, Field } from 'react-final-form';
-import {groupBy} from 'lodash';
+import {groupBy, noop} from 'lodash'; //noop zastępuje () =>{}
 
-function AddTransactionForm ({categories, groupCategoriesBy}) {
+function AddTransactionForm ({categories, groupCategoriesBy, onSubmit = noop}) {
 
     const required = value => (value ? undefined : 'Pole wymagane!') // jeżeli nie ma błedu to zwraca undefined
 
@@ -24,7 +24,7 @@ function AddTransactionForm ({categories, groupCategoriesBy}) {
 
     return (
         <Form
-            onSubmit={console.log}
+            onSubmit={onSubmit}
             render={({ handleSubmit, form, submitting, pristine, values }) => (
             <form onSubmit={handleSubmit}>
                 <Field name="description" validate={required}>
@@ -53,7 +53,7 @@ function AddTransactionForm ({categories, groupCategoriesBy}) {
                 )}
                 </Field>
                 <Field 
-                    name="category" 
+                    name="categoryId" 
                     validate={required}
                     format={value => (value ? value.toLowerCase() : '')}
                 >

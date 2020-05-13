@@ -1,6 +1,6 @@
 import React, {useEffect, useMemo, Fragment} from 'react';
 import {connect} from 'react-redux';
-import {fetchBudget, fetchBudgetedCategories} from 'data/actions/budget.actions';
+import {fetchBudget, fetchBudgetedCategories, addTransaction} from 'data/actions/budget.actions';
 import {fetchAllCategories} from 'data/actions/common.actions';
 import {LoadingIndicator, Modal, Button} from 'components';
 import BudgetCategoryList from './components/budgetCategoryList'
@@ -11,8 +11,8 @@ import {Switch, Route} from 'react-router-dom'; // elementy Router możemy wstaw
 import {Grid} from './Budget.css';
 
 function Budget({
-  commonState, budgetState, allCategories,
-  fetchBudget, fetchBudgetedCategories, fetchAllCategories
+  commonState, budgetState, allCategories, budget,
+  fetchBudget, fetchBudgetedCategories, fetchAllCategories, addTransaction
 }) { //dispatchujemy, więc musimy odebrać w propsach
     useEffect(() => {
         fetchBudget(1); // odpalenie akcji pobierania budżetu
@@ -20,6 +20,13 @@ function Budget({
         fetchAllCategories();
     }, [fetchBudget, fetchBudgetedCategories, fetchAllCategories]);
 
+    const handleSubmitAddTransaction = (values) => {
+      addTransaction ({
+        budgetId: budget.id, 
+        data: values,
+      })
+    }
+    
     const isLoaded = useMemo(
       () => (!!commonState && Object.keys(commonState).length === 0) && 
       (!!budgetState && Object.keys(budgetState).length === 0), 
@@ -49,6 +56,7 @@ function Budget({
             <Modal><AddTransactionForm
               categories={allCategories}
               groupCategoriesBy={'parentCategory.name'}
+              onSubmit={handleSubmitAddTransaction}
             /></Modal>
           </Route>
         </Switch>
@@ -67,5 +75,6 @@ export default connect(state =>{
   }, { // podaje w propsach akcje
     fetchBudget,
     fetchBudgetedCategories,
-    fetchAllCategories
+    fetchAllCategories,
+    addTransaction,
 })(Budget)

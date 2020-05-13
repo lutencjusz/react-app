@@ -3,6 +3,7 @@
 // dispaczować akcje BUDGET_GET_SUCCESS + przekazać dane z requestu
 
 import { 
+    BUDGET_TRANSACTION_ADD,
     BUDGET_GET,
     BUDGETED_CATEGORIES_GET,
     SET_SELECTED_PARENT_CATEGORY_ID
@@ -28,6 +29,16 @@ export const fetchBudgetedCategories = (id) => {
         type: BUDGETED_CATEGORIES_GET,
         promise
     }   
+}
+
+export const addTransaction = ({budgetId, data}) => {
+
+    const promise = API.budget.addTransaction({budgetId, data});
+
+    return {
+        type: BUDGET_TRANSACTION_ADD,
+        promise,
+    }
 }
 
 export const selectParentCategory = (id) => {
