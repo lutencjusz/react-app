@@ -6,8 +6,7 @@ import {LoadingIndicator, Modal, Button} from 'components';
 import BudgetCategoryList from './components/budgetCategoryList'
 import BudgetTransactionList from './components/budgetTransactionList'
 import AddTransactionForm from './components/addTransactionForm'
-import {Switch, Route} from 'react-router-dom'; // elementy Router możemy wstawiać w każdym dziecku
-
+import {Switch, Route, useHistory} from 'react-router-dom'; // elementy Router możemy wstawiać w każdym dziecku
 import {Grid} from './Budget.css';
 
 function Budget({
@@ -19,12 +18,12 @@ function Budget({
         fetchBudgetedCategories(1);
         fetchAllCategories();
     }, [fetchBudget, fetchBudgetedCategories, fetchAllCategories]);
-
+    const history = useHistory();
     const handleSubmitAddTransaction = (values) => {
       addTransaction ({
         budgetId: budget.id, 
         data: values,
-      })
+      }).then(() =>history.goBack())
     }
     
     const isLoaded = useMemo(

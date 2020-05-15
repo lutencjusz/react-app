@@ -6,7 +6,9 @@ import {
     BUDGETED_CATEGORIES_GET_SUCCESS,
     BUDGETED_CATEGORIES_GET_FAILURE,
     SET_SELECTED_PARENT_CATEGORY_ID,
-    LOADING_STATES
+    LOADING_STATES,
+    BUDGET_TRANSACTION_ADD_REQUEST,
+    BUDGET_TRANSACTION_ADD_SUCCESS,
 } from '../constants';
 
 const initilaState = {
@@ -67,7 +69,28 @@ function budget (state = initilaState, action) {
             return {
                 ...state,
                 selectedParentCategoryId: action.payload
-            }    
+            }
+        case BUDGET_TRANSACTION_ADD_REQUEST:
+                return {
+                    ...state,
+                    loadingState: {
+                        ...state.loadingState,
+                        [action.type]: LOADING_STATES.LOADING
+                    },
+                } 
+        case BUDGET_TRANSACTION_ADD_SUCCESS:
+                delete newLoadingState.BUDGET_GET_REQUEST; // usuwa z obiektu BUDGET...
+                return {
+                    ...state, 
+                    budget: {
+                        ...state.budget,
+                        transactions: [
+                            ...state.budget.transactions,
+                            action.payload
+                        ]                            
+                    },
+                    loadingState: newLoadingState // nowy obiekt będzie utworzony, nie będzie mutowalności danych w stage
+                }            
         default:
             return state;
     }
