@@ -2,7 +2,7 @@
 // wykonać request do api
 // dispaczować akcje BUDGET_GET_SUCCESS + przekazać dane z requestu
 
-import { 
+import {
     BUDGET_TRANSACTION_ADD,
     BUDGET_GET,
     BUDGETED_CATEGORIES_GET,
@@ -12,8 +12,8 @@ import {
 import API from '../fetch';
 
 export const fetchBudget = (id) => { // jeżeli używamy dispatch to musi być thunkMiddleware
-    
-    const promise = API.budget.fetchBudget(id);
+
+    const promise = API.budget.fetchBudget({ id });
 
     return { //uruchamia middleware 
         type: BUDGET_GET,
@@ -24,17 +24,17 @@ export const fetchBudget = (id) => { // jeżeli używamy dispatch to musi być t
 
 export const fetchBudgetedCategories = (id) => {
 
-    const promise = API.budget.fetchBudgetedCategories(id);
+    const promise = API.budget.fetchBudgetedCategories({ id });
 
     return {
         type: BUDGETED_CATEGORIES_GET,
         promise
-    }   
+    }
 }
 
-export const addTransaction = ({budgetId, data}) => {
+export const addTransaction = ({ budgetId, data }) => {
 
-    const promise = API.budget.addTransaction({budgetId, data});
+    const promise = API.budget.addTransaction({ budgetId, data });
 
     return {
         type: BUDGET_TRANSACTION_ADD,

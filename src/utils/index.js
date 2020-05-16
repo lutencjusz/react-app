@@ -4,9 +4,10 @@ const currencyValue = {
     en: 'GBP'
 }
 
-export const formatCurrency = (value, lng) => { //dostosowuje format waluty do lokalnych warunków
+export const formatCurrency = (value, lng = currencyValue['pl']) => { //dostosowuje format waluty do lokalnych warunków
+    // console.log({lng})
     const number = Number(value);
-    return new Intl.NumberFormat(lng, {style: 'currency', currency: currencyValue[lng]}).format(number);
+    return new Intl.NumberFormat(lng, { style: 'currency', currency: currencyValue[lng] }).format(number);
 }
 
 export const formatDate = (string, lng) => {
