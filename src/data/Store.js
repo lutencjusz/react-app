@@ -7,7 +7,8 @@ import notificationsMiddleware from './middleware/notification'
 
 export default function configureStore(preloadedState) {
   const middlewares = [
-    promiseMiddleware, notificationsMiddleware
+    promiseMiddleware, 
+    notificationsMiddleware
 ];
   const middlewareEnhancer = applyMiddleware(...middlewares)
   const enhancers = [middlewareEnhancer]

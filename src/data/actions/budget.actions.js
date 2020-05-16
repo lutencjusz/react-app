@@ -17,7 +17,8 @@ export const fetchBudget = (id) => { // jeżeli używamy dispatch to musi być t
 
     return { //uruchamia middleware 
         type: BUDGET_GET,
-        promise
+        promise,
+        successMessage: "Budżet pobrany!",
     }
 }
 
@@ -38,7 +39,7 @@ export const addTransaction = ({budgetId, data}) => {
     return {
         type: BUDGET_TRANSACTION_ADD,
         promise,
-        successMessage: 'Jest sukces!',
+        successMessage: 'Jest sukces!', //przekazuje komunikat do middleware
     }
 }
 
