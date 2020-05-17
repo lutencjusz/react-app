@@ -67,13 +67,14 @@ function BudgetCategoryList({ selectParentCategory }) { // pobiera dane bezpośr
         })
         ), [budgetedCategoriesByParents, allCategories, budget.transactions, selectParentCategory]);
 
-    //console.log({listItems});
+    // console.log({listItems});
+    // console.log({budget});
 
     const totalSpent = useMemo(() => budget.transactions
         .reduce((acc, transaction) => acc + transaction.amount, 0)
         , [budget.transactions]);
 
-    //console.log({totalSpent});
+    // console.log({totalSpent});
 
     const restToSpent = useMemo(() => budget.totalAmount - totalSpent, [budget.totalAmount, totalSpent]) // ile zostało do wydania całkowicie
 

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { addTransaction } from 'data/actions/budget.actions';
-import { LoadingIndicator, Modal, Button } from 'components';
+import { Modal, Button, SuspenseErrorBoundary } from 'components';
 import BudgetCategoryList from './components/budgetCategoryList'
 import BudgetTransactionList from './components/budgetTransactionList'
 import AddTransactionForm from './components/addTransactionForm'
@@ -33,15 +33,15 @@ function Budget({
     <Fragment>
       <Grid>
         <section>
-          <React.Suspense fallback={<LoadingIndicator />}>
+          <SuspenseErrorBoundary>
             <BudgetCategoryList />
-          </React.Suspense>
+          </SuspenseErrorBoundary>
         </section>
         <section>
-          <React.Suspense fallback={<LoadingIndicator />}>
+          <SuspenseErrorBoundary>
             <Button to="/budget/transaction/new" variant='Inline'>Add new transaction</Button>
             <BudgetTransactionList />
-          </React.Suspense>
+          </SuspenseErrorBoundary>
         </section>
       </Grid>
       <Switch>

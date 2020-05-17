@@ -15,6 +15,7 @@ const store = configureStore()
 
 const queryConfig = {
   suspense: true,
+  retry: 2, // ilość prób powtórzenia na 2
 }
 
 ReactDOM.render(

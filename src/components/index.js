@@ -5,3 +5,4 @@ export {default as Button} from './button';
 export {default as Budget} from '../pages/budget';
 export {default as ToggleableList} from './toggleableList';
 export {default as Modal} from './modal';
+export {default as SuspenseErrorBoundary} from './suspenseErrorBoundary';
