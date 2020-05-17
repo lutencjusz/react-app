@@ -1,24 +1,12 @@
 import React, { Fragment } from 'react';
-import { connect } from 'react-redux';
-import { addTransaction } from 'data/actions/budget.actions';
 import { Modal, Button, SuspenseErrorBoundary } from 'components';
 import BudgetCategoryList from './components/budgetCategoryList'
 import BudgetTransactionList from './components/budgetTransactionList'
-import AddTransactionForm from './components/addTransactionForm'
-import { Switch, Route, useHistory } from 'react-router-dom'; // elementy Router możemy wstawiać w każdym dziecku
+import AddTransactionView from './components/addTransactionForm'
+import { Switch, Route } from 'react-router-dom'; // elementy Router możemy wstawiać w każdym dziecku
 import { Grid } from './Budget.css';
 
-function Budget({
-  commonState, budgetState, allCategories, budget,
-  addTransaction
-}) { //dispatchujemy, więc musimy odebrać w propsach
-  const history = useHistory();
-  const handleSubmitAddTransaction = (values) => {
-    addTransaction({
-      budgetId: budget.id,
-      data: values,
-    }).then(() => history.goBack())
-  }
+function Budget() { //dispatchujemy, więc musimy odebrać w propsach
 
   // const isLoaded = useMemo(
   //   () => (!!commonState && Object.keys(commonState).length === 0) &&
@@ -46,11 +34,11 @@ function Budget({
       </Grid>
       <Switch>
         <Route path="/budget/transaction/new">
-          <Modal><AddTransactionForm
-            categories={allCategories}
-            groupCategoriesBy={'parentCategory.name'}
-            onSubmit={handleSubmitAddTransaction}
-          /></Modal>
+          <SuspenseErrorBoundary>
+            <Modal>
+              <AddTransactionView />
+            </Modal>
+          </SuspenseErrorBoundary>
         </Route>
       </Switch>
     </Fragment>
@@ -58,11 +46,4 @@ function Budget({
   )
 }
 
-export default connect(state => {
-  return { // podaje propsy dla Budget
-    commonState: state.common.loadingState,
-    budgetState: state.budget.loadingState,
-  }
-}, { // podaje w propsach akcje
-  addTransaction,
-})(Budget)
+export default Budget

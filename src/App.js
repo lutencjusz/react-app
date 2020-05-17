@@ -3,7 +3,7 @@ import logo from 'logo.svg'; // przy jsconfig.json nie trzeba podawać ścieżek
 import 'App.css';
 import { useTranslation } from 'react-i18next';
 import GlobalStyles from 'index.css'
-import { LoadingIndicator, Navigation, Wrapper, Button, Budget } from 'components' // korzysta z index.html z katalogu components
+import { LoadingIndicator, Navigation, Wrapper, Button, Budget, SuspenseErrorBoundary } from 'components' // korzysta z index.html z katalogu components
 import {
   BrowserRouter as Router,
   Switch,
@@ -45,7 +45,9 @@ function App() {
                 Dom
                 </Route>
               <Route path="/budget">
-                <Budget />
+                <SuspenseErrorBoundary>
+                  <Budget />
+                </SuspenseErrorBoundary>
               </Route>
             </Switch>
           </Wrapper>
