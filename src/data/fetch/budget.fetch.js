@@ -1,4 +1,4 @@
-export const fetchBudget = async({ id }) => { // czekamy na rozwiązanie się tego promise
+export const fetchBudget = async ({ id }) => { // czekamy na rozwiązanie się tego promise
     console.log({ id })
     if (id === undefined) id = 1;
 
@@ -9,7 +9,7 @@ export const fetchBudget = async({ id }) => { // czekamy na rozwiązanie się te
     return data;
 }
 
-export const fetchBudgetedCategories = async({ id }) => {
+export const fetchBudgetedCategories = async ({ id }) => {
     // console.log({ id })
     if (id === undefined) id = 1;
     const response = await fetch(`${process.env.REACT_APP_API_URL}/budgets/${id}/budgetCategories`);
@@ -17,11 +17,12 @@ export const fetchBudgetedCategories = async({ id }) => {
     return data;
 }
 
-export const addTransaction = ({ budgetId, data }) => { // jeżeli przekazuje obiekt, to kolejność mnie nie interesuje
-    const promise = fetch(`${process.env.REACT_APP_API_URL}/budgets/${budgetId}/transactions`, {
+export const addTransaction = async ({ budgetId, data }) => { // jeżeli przekazuje obiekt, to kolejność mnie nie interesuje
+    // dostosowanie wyniku [] do useMutaion 
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/budgets/${budgetId}/transactions`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
     });
-    return promise;
+    return await response.json();
 } 
