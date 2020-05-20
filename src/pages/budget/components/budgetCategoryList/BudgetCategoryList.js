@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useMemo, useCallback } from 'react'; // useRef, żeby oddziaływać na useState dziecka
+import React, { Fragment, useRef, useMemo, useCallback, useContext } from 'react'; // useRef, żeby oddziaływać na useState dziecka
 // useCallback zwraca funkcję, a nie wartość jak useMemo, czyli jeżeli nie zmieni się fukcja, to się nie zrenderuje
 import { connect } from 'react-redux';
 import { groupBy } from 'lodash';
@@ -10,6 +10,7 @@ import 'styled-components/macro'; // żeby używać CSS styled components
 import { selectParentCategory } from 'data/actions/budget.actions';
 import { useQuery } from 'react-query'
 import API from 'data/fetch';
+import BudgetContext from 'data/context';
 
 function BudgetCategoryList({ selectParentCategory }) { // pobiera dane bezpośrednio ze store poprze connect
 
@@ -19,6 +20,9 @@ function BudgetCategoryList({ selectParentCategory }) { // pobiera dane bezpośr
       ['budgetedCategories', { id: 1 }],
       API.budget.fetchBudgetedCategories
     );
+    const context = useContext(BudgetContext.store);
+
+    console.log({context});
 
     const { t } = useTranslation();
     const handleClickParentCategoryRef = useRef(null);

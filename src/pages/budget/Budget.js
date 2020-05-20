@@ -1,7 +1,8 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { Modal, Button, SuspenseErrorBoundary } from 'components';
 import { Switch, Route } from 'react-router-dom'; // elementy Router możemy wstawiać w każdym dziecku
 import { Grid } from './Budget.css';
+import BudgetContext from 'data/context';
 
 const BudgetTransactionList = React.lazy(()=> import('./components/budgetTransactionList')); //lazy daje code splitting 
 const BudgetCategoryList = React.lazy(()=> import('./components/budgetCategoryList')); 
@@ -21,7 +22,7 @@ function Budget() { //dispatchujemy, więc musimy odebrać w propsach
   const [showTransactions, setShowTransactions] = useState();
 
   return (
-    <Fragment>
+    <BudgetContext.BudgetProvider>
       <Grid>
         <section>
           <SuspenseErrorBoundary>
@@ -47,7 +48,7 @@ function Budget() { //dispatchujemy, więc musimy odebrać w propsach
           </SuspenseErrorBoundary>
         </Route>
       </Switch>
-    </Fragment>
+    </BudgetContext.BudgetProvider>
 
   )
 }
