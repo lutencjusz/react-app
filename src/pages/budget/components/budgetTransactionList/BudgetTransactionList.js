@@ -9,14 +9,14 @@ import BudgetContext from 'data/context';
 
 function BudgetTransactionList() {
     const { i18n } = useTranslation();
-    const id =1;
-    const { data: budget } = useQuery(['budget', {id}], API.budget.fetchBudget);
+    const id = 1;
+    const { data: budget } = useQuery(['budget', { id }], API.budget.fetchBudget);
     const { data: allCategories } = useQuery('allCategories', API.common.fetchAllCategories);
     const { data: budgetedCategories } = useQuery(
-      ['budgetedCategories', {id}],
-      API.budget.fetchBudgetedCategories
+        ['budgetedCategories', { id }],
+        API.budget.fetchBudgetedCategories
     );
-    const {selectedParentCategoryId} = useContext(BudgetContext.store);
+    const { selectedParentCategoryId } = useContext(BudgetContext.store);
 
     const filteredTransactionsBySelectedParentCategory = useMemo((() => { //wykorzystuje memonizacje
         // console.log({selectedParentCategoryId})

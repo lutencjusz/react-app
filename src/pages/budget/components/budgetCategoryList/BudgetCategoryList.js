@@ -18,7 +18,12 @@ function BudgetCategoryList() { // pobiera dane bezpośrednio ze store poprze co
         ['budgetedCategories', { id: 1 }],
         API.budget.fetchBudgetedCategories
     );
-    const {setSelectedParentCategoryId} = useContext(BudgetContext.store);
+    const {dispatch} = useContext(BudgetContext.store); // useRedux zwraca dispatch
+
+    const setSelectedParentCategoryId = useCallback((id) => dispatch({ // trzeba użyć useCallback, bo w wywołaniu będzie się ciągle przerenderowywał
+        type: 'selectedParentCategoryId',
+        payload: id,
+    }),[dispatch]);
 
     const { t } = useTranslation();
     const handleClickParentCategoryRef = useRef(null);
