@@ -1,28 +1,24 @@
 import React, { Fragment, useRef, useMemo, useCallback, useContext } from 'react'; // useRef, żeby oddziaływać na useState dziecka
 // useCallback zwraca funkcję, a nie wartość jak useMemo, czyli jeżeli nie zmieni się fukcja, to się nie zrenderuje
-import { connect } from 'react-redux';
 import { groupBy } from 'lodash';
 import { ToggleableList } from 'components';
 import ParentCategory from './ParentCategory';
 import CategoryItem from './CategoryItem';
 import { useTranslation } from 'react-i18next';
 import 'styled-components/macro'; // żeby używać CSS styled components
-import { selectParentCategory } from 'data/actions/budget.actions';
 import { useQuery } from 'react-query'
 import API from 'data/fetch';
 import BudgetContext from 'data/context';
 
-function BudgetCategoryList({ selectParentCategory }) { // pobiera dane bezpośrednio ze store poprze connect
+function BudgetCategoryList() { // pobiera dane bezpośrednio ze store poprze connect
 
     const { data: budget } = useQuery(['budget', { id: 1 }], API.budget.fetchBudget);
     const { data: allCategories } = useQuery('allCategories', API.common.fetchAllCategories);
     const { data: budgetedCategories } = useQuery(
-      ['budgetedCategories', { id: 1 }],
-      API.budget.fetchBudgetedCategories
+        ['budgetedCategories', { id: 1 }],
+        API.budget.fetchBudgetedCategories
     );
-    const context = useContext(BudgetContext.store);
-
-    console.log({context});
+    const {setSelectedParentCategoryId} = useContext(BudgetContext.store);
 
     const { t } = useTranslation();
     const handleClickParentCategoryRef = useRef(null);
@@ -33,14 +29,14 @@ function BudgetCategoryList({ selectParentCategory }) { // pobiera dane bezpośr
     ), [budgetedCategories, allCategories]); // jeśli w referencji budgetedCategories, allCategories się zmieni, to wykonuje funkcję
 
     const handleClearParentCategorySelect = useCallback(() => { // przechwutuje pokazywanie wszystkich transakcji
-        selectParentCategory();
+        setSelectedParentCategoryId();
         handleClickParentCategoryRef.current() // wywołuje funkcję setSelectedItem z ToggleableList 
-    }, [selectParentCategory, handleClickParentCategoryRef])
+    }, [setSelectedParentCategoryId, handleClickParentCategoryRef])
 
     const handleSelectRestParentCategory = useCallback(() => {
-        selectParentCategory(null);
+        setSelectedParentCategoryId(null);
         handleClickParentCategoryRef.current() // przekazujemy do setSelectedItem wartość undefined
-    }, [selectParentCategory, handleClickParentCategoryRef])
+    }, [setSelectedParentCategoryId, handleClickParentCategoryRef])
 
     const listItems = useMemo(() => Object.entries(budgetedCategoriesByParents)
         .map(([parentName, categories]) => ({
@@ -50,7 +46,7 @@ function BudgetCategoryList({ selectParentCategory }) { // pobiera dane bezpośr
                     name={parentName}
                     onClick={() => {
                         onClick(parentName);
-                        selectParentCategory(parentName)
+                        setSelectedParentCategoryId(parentName);
                     }}
                     categories={categories}
                     transactions={budget.transactions}
@@ -69,7 +65,7 @@ function BudgetCategoryList({ selectParentCategory }) { // pobiera dane bezpośr
                 )
             })
         })
-        ), [budgetedCategoriesByParents, allCategories, budget.transactions, selectParentCategory]);
+        ), [budgetedCategoriesByParents, allCategories, budget.transactions, setSelectedParentCategoryId]);
 
     // console.log({listItems});
     // console.log({budget});
@@ -141,7 +137,4 @@ function BudgetCategoryList({ selectParentCategory }) { // pobiera dane bezpośr
 
 }
 
-export default connect(null, {
-    selectParentCategory // jeżeli przekażemy funkcję, to connect ją zdyspatchuje
-}
-)(BudgetCategoryList);
+export default BudgetCategoryList;

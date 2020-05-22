@@ -1,13 +1,13 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useContext } from 'react';
 import { List, ListItem } from './BudgetTransactionList.css'
 import { groupBy } from 'lodash';
-import { connect } from 'react-redux';
 import { formatCurrency, formatDate } from 'utils';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from 'react-query';
 import API from 'data/fetch';
+import BudgetContext from 'data/context';
 
-function BudgetTransactionList({ transactions, selectedParentCategoryId }) {
+function BudgetTransactionList() {
     const { i18n } = useTranslation();
     const id =1;
     const { data: budget } = useQuery(['budget', {id}], API.budget.fetchBudget);
@@ -16,6 +16,8 @@ function BudgetTransactionList({ transactions, selectedParentCategoryId }) {
       ['budgetedCategories', {id}],
       API.budget.fetchBudgetedCategories
     );
+    const {selectedParentCategoryId} = useContext(BudgetContext.store);
+
     const filteredTransactionsBySelectedParentCategory = useMemo((() => { //wykorzystuje memonizacje
         // console.log({selectedParentCategoryId})
         if (typeof selectedParentCategoryId === 'undefined') { // jeżeli jest undefined, to musi być typeof, bo null jest false
@@ -72,6 +74,4 @@ function BudgetTransactionList({ transactions, selectedParentCategoryId }) {
     </List>
 }
 
-export default connect(state => ({
-    selectedParentCategoryId: state.budget.selectedParentCategoryId
-}))(BudgetTransactionList);
+export default BudgetTransactionList;
